@@ -116,7 +116,7 @@ main.cpp ──► tasks.cpp ──┬──► Grid
 
 | Member | Tasks | Files |
 |---|---|---|
-| Project Leader (Iteration 2): *TBD* | T0 menu and skeleton, T11 exit, D3 Excel plan | `main.cpp`, `tasks.h`, `config.h`, `point.h`, `input.cpp` (`readInt`) |
+| Project Leader (Iteration 2): ROBERT | T0 menu and skeleton, T11 exit, D3 Excel plan | `main.cpp`, `tasks.h`, `config.h`, `point.h`, `input.cpp` (`readInt`) |
 | Isaiah | T1 configure grid, T2 set points, T3 obstacles, T9 save/load | `grid.h/.cpp`, `input.cpp` (`readPoint`), Isaiah section of `tasks.cpp` |
 | Robert | T5 run simulation, T6 results, T10 run history | `robot.h/.cpp`, `navigator.h/.cpp`, Robert section of `tasks.cpp` |
 | Wyatt Zani | T4 show grid, T7 help and legend, T8 reset, D1 README | `display.h/.cpp`, Wyatt section of `tasks.cpp`, `README.md` |
