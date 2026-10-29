@@ -13,13 +13,11 @@ its way and returning to its original path once clear. Every move costs 1 meter 
 
 ## Build
 
-Requires a C++17 compiler (g++, Clang, or MSVC). From the repository root:
+Requires a C++17 compiler From the repository root:
 
 ```bash
 g++ -std=c++17 -Wall src/*.cpp -o robot_navigator
 ```
-
-**Windows (MinGW / VS Code terminal):** the same command works and produces `robot_navigator.exe`.
 
 ## Run
 
