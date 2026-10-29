@@ -43,9 +43,14 @@ void taskSaveLoad(AppState& state) {
 // =============================== WYATT =====================================
 // T4: draw the grid with A, B and obstacles.
 void taskShowGrid(AppState& state) {
-    notImplemented("T4 Show grid");
-    (void)state;
+    if (state.grid.getSize() == 0) {
+        cout << "\n   Configure the grid first (option 1).\n";
+        return;
+    }
+    // the robot hasn't moved yet, so it is drawn at A
+    render(state.grid, state.A, state.A, state.B, 0, 0, BATTERY_START, "Map preview");
 }
+
 
 // T7: program description and legend.
 void taskHelp(AppState& state) {
