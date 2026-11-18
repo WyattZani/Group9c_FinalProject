@@ -47,6 +47,10 @@ void taskShowGrid(AppState& state) {
         cout << "\n   Configure the grid first (option 1).\n";
         return;
     }
+    if (!isSet(state.A) || !isSet(state.B)) {
+        cout << "\n   Set points A and B first (option 2).\n";
+        return;
+    }
     // the robot hasn't moved yet, so it is drawn at A
     render(state.grid, state.A, state.A, state.B, 0, 0, BATTERY_START, "Map preview");
 }
@@ -54,14 +58,23 @@ void taskShowGrid(AppState& state) {
 
 // T7: program description and legend.
 void taskHelp(AppState& state) {
-    notImplemented("T7 Help and legend");
     (void)state;
+    printHeader();
+    printLegend();
+    cout << " Typical run: 1 -> 2 -> 3 -> 4 -> 5 -> 6\n";
 }
 
 // T8: clear the grid, points and last run.
 void taskReset(AppState& state) {
-    notImplemented("T8 Reset / new map");
-    (void)state;
+    state.grid.clear();
+    state.grid.setSize(0);
+    state.obstacleCount  = 0;
+    state.A              = Point{};
+    state.B              = Point{};
+    state.obstaclesReady = false;
+    state.hasRun         = false;
+    state.lastRun        = RunResult{};
+    cout << "\n   Map, points and last run cleared. Run history kept.\n";
 }
 
 // =============================== ROBERT ====================================
