@@ -80,8 +80,27 @@ void taskReset(AppState& state) {
 // =============================== ROBERT ====================================
 // T5: build a Navigator and run the animated simulation.
 void taskRunSimulation(AppState& state) {
-    notImplemented("T5 Run simulation");
-    (void)state;
+    if (state.grid.getSize() == 0) {
+        cout << "\n   Configure the grid first (option 1).\n";
+        return;
+    }
+    if (!isSet(state.A) || !isSet(state.B)) {
+        cout << "\n   Set points A and B first (option 2).\n";
+        return;
+    }
+    if (!state.obstaclesReady) {
+        cout << "\n   Generate obstacles first (option 3).\n";
+        return;
+    }
+
+    Navigator nav(state.grid, state.A, state.B, state.rng);
+    nav.run();
+
+    state.lastRun = nav.getResult();
+    state.hasRun  = true;
+    state.history.push_back(state.lastRun);   // saved for T10
+
+    printResults(state.lastRun);
 }
 
 // T6: print the result of the last run.
