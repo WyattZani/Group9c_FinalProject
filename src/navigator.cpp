@@ -44,7 +44,15 @@ RunResult Navigator::getResult() const {
 
 // ----------------------------- T6: results ---------------------------------
 void printResults(const RunResult& result) {
-    // TODO(Robert): port the "Results" block from the draft.
-    cout << "   [printResults] not implemented yet\n";
-    (void)result;
+    cout << "\n   ===== Results =====\n";
+    cout << "   Outcome  : ";
+    switch (result.outcome) {
+        case REACHED:      cout << "Reached point B\n";               break;
+        case BATTERY_DEAD: cout << "Battery died before reaching B\n"; break;
+        case TRAPPED:      cout << "Trapped - no way forward\n";       break;
+        default:           cout << "Still running\n";                  break;
+    }
+    cout << "   Moves    : " << result.moves    << "\n";
+    cout << "   Distance : " << result.distance << " m\n";
+    cout << "   Battery  : " << result.battery  << "% left\n";
 }

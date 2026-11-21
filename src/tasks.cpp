@@ -105,8 +105,11 @@ void taskRunSimulation(AppState& state) {
 
 // T6: print the result of the last run.
 void taskShowResults(AppState& state) {
-    notImplemented("T6 Show results");
-    (void)state;
+    if (!state.hasRun) {
+        cout << "\n   No run yet. Run the simulation first (option 5).\n";
+        return;
+    }
+    printResults(state.lastRun);
 }
 
 // T10 (optional): success rate and averages across all runs.
