@@ -1,7 +1,7 @@
 /******************************************************************************
  * File        : input.cpp
  * Owner       : Project Leader (readInt, T0) / Isaiah (readPoint, T2)
- * Status      : readInt() is DONE (the menu needs it). readPoint() is a STUB.
+ * Status      : readInt() and readPoint() are DONE.
  ******************************************************************************/
 #include "input.h"
 #include <iostream>
@@ -27,9 +27,12 @@ int readInt(const string& prompt, int lo, int hi) {
 }
 
 // ----------------------------- T2: points ----------------------------------
+// Reads a point as 1-based row and column (what the user sees on screen),
+// and stores it 0-based (how the grid is indexed).
 Point readPoint(const string& name, int side) {
-    // TODO(Isaiah): port readPoint() from the draft using readInt().
-    cout << "   [readPoint " << name << "] not implemented yet\n";
-    (void)side;
-    return Point{};
+    cout << "\n Enter coordinates for point " << name << ":\n";
+    Point p;
+    p.r = readInt("   Row   ", 1, side) - 1;
+    p.c = readInt("   Column", 1, side) - 1;
+    return p;
 }

@@ -17,21 +17,89 @@ static void notImplemented(const string& taskName) {
 
 // =============================== ISAIAH ====================================
 // T1: ask for grid side and obstacle count, then size the grid.
+// A new grid size makes the old points and obstacles meaningless, so they
+// are cleared and have to be set again (options 2 and 3).
 void taskConfigureGrid(AppState& state) {
-    notImplemented("T1 Configure grid");
-    (void)state;
+    int side = readInt(" Enter the grid side length", MIN_SIDE, MAX_SIDE);
+    int obstacleSize = side / 2;
+    cout << "   Each obstacle will be " << obstacleSize << " cell(s) long.\n";
+    int count = readInt(" Enter the number of obstacles", 0, side - 1);
+
+    state.grid.clear();
+    state.grid.setSize(side);
+    state.obstacleCount  = count;
+    state.A              = Point{};
+    state.B              = Point{};
+    state.obstaclesReady = false;
+    state.hasRun         = false;
+
+    cout << "\n   Grid set to " << side << " x " << side << " with "
+         << count << " obstacle(s). Next, set points A and B (option 2).\n";
 }
 
 // T2: ask for points A and B (must be different).
+// New points clear any old obstacles, since an obstacle could now sit on A or B.
 void taskSetPoints(AppState& state) {
-    notImplemented("T2 Set start and goal");
-    (void)state;
+    int side = state.grid.getSize();
+    if (side == 0) {
+        cout << "\n   Configure the grid first (option 1).\n";
+        return;
+    }
+
+    state.A = readPoint("A (start)", side);
+    while (true) {
+        state.B = readPoint("B (goal)", side);
+        if (!samePoint(state.A, state.B))
+            break;
+        cout << "   Point B must be different from point A.\n";
+    }
+
+    state.grid.clear();
+    state.obstaclesReady = false;
+    state.hasRun         = false;
+
+    cout << "\n   A = (" << state.A.r + 1 << ", " << state.A.c + 1 << "), B = ("
+         << state.B.r + 1 << ", " << state.B.c + 1
+         << "). Next, generate obstacles (option 3).\n";
 }
 
 // T3: place obstacles, retrying until a route from A to B exists.
+// If every attempt fails, it tries again with one fewer obstacle, so a route
+// is always guaranteed (0 obstacles always works).
 void taskGenerateObstacles(AppState& state) {
-    notImplemented("T3 Generate obstacles");
-    (void)state;
+    int side = state.grid.getSize();
+    if (side == 0) {
+        cout << "\n   Configure the grid first (option 1).\n";
+        return;
+    }
+    if (!isSet(state.A) || !isSet(state.B)) {
+        cout << "\n   Set points A and B first (option 2).\n";
+        return;
+    }
+
+    int obstacleSize = side / 2;
+    int target = state.obstacleCount;
+    bool valid = false;
+
+    while (!valid) {
+        for (int attempt = 0; attempt < LAYOUT_ATTEMPTS && !valid; attempt++) {
+            int placed = state.grid.placeObstacles(target, obstacleSize,
+                                                   state.A, state.B, state.rng);
+            valid = (placed == target) && state.grid.pathExists(state.A, state.B);
+        }
+        if (!valid)
+            target--;
+    }
+
+    state.obstaclesReady = true;
+    state.hasRun         = false;
+
+    if (target < state.obstacleCount)
+        cout << "\n   Could not fit all " << state.obstacleCount
+             << " obstacles with a route open, so " << target << " were placed.\n";
+    else
+        cout << "\n   " << target << " obstacle(s) placed, and a route from A to B is open.\n";
+    cout << "   Show the grid (option 4) or run the simulation (option 5).\n";
 }
 
 // T9 (optional): save the current map to a file or load one.
