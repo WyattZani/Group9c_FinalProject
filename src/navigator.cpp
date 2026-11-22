@@ -1,12 +1,14 @@
 /******************************************************************************
  * File        : navigator.cpp
  * Owner       : Robert (T5, T6)
- * Status      : STUB - replace each TODO with working code.
+ * Status      : IN PROGRESS - run() and printResults() done; step() still a stub.
  *               Port from Group9FinalDraft1.cpp: the "Navigation state" and
- *               "Simulation loop" blocks, and the "Results" block in main().
+ *               "Simulation loop" blocks.
  ******************************************************************************/
 #include "navigator.h"
 #include <iostream>
+#include "config.h"
+#include "display.h"
 
 using namespace std;
 
@@ -18,9 +20,33 @@ Navigator::Navigator(Grid& g, Point start, Point goal, mt19937& randomGen)
 }
 
 // ----------------------------- T5: simulate --------------------------------
+// Draw the grid, make one move, pause, and repeat until the run ends.
 Outcome Navigator::run() {
-    // TODO(Robert): call render() and step() until the run ends.
-    cout << "   [Navigator::run] not implemented yet\n";
+    grid.clearVisited();   // erase the path from any earlier run
+
+    render(grid, robot.getPosition(), A, B, robot.getMoves(),
+           robot.getDistance(), robot.getBattery(), "Starting");
+    pauseMs(STEP_DELAY_MS);
+
+    while (step()) {
+        render(grid, robot.getPosition(), A, B, robot.getMoves(),
+               robot.getDistance(), robot.getBattery(), "Moving");
+        pauseMs(STEP_DELAY_MS);
+    }
+
+    string status;
+    if (outcome == REACHED) {
+        status = "Reached B";
+    } else if (outcome == BATTERY_DEAD) {
+        status = "Battery dead";
+    } else if (outcome == TRAPPED) {
+        status = "Trapped";
+    } else {
+        status = "Stopped";
+    }
+    render(grid, robot.getPosition(), A, B, robot.getMoves(),
+           robot.getDistance(), robot.getBattery(), status);
+
     return outcome;
 }
 
