@@ -114,6 +114,28 @@ void taskShowResults(AppState& state) {
 
 // T10 (optional): success rate and averages across all runs.
 void taskHistory(AppState& state) {
-    notImplemented("T10 Run history");
-    (void)state;
+    if (state.history.empty()) {
+        cout << "\n   No runs yet. Run the simulation first (option 5).\n";
+        return;
+    }
+
+    int runs = state.history.size();
+    int reached = 0;
+    int totalMoves = 0;
+    int totalBattery = 0;
+
+    for (int i = 0; i < runs; i++) {
+        if (state.history[i].outcome == REACHED) {
+            reached++;
+        }
+        totalMoves += state.history[i].moves;
+        totalBattery += state.history[i].battery;
+    }
+
+    cout << "\n   ===== Run history =====\n";
+    cout << "   Runs         : " << runs << "\n";
+    cout << "   Reached B    : " << reached << " ("
+         << 100.0 * reached / runs << "%)\n";
+    cout << "   Avg moves    : " << (double)totalMoves / runs << "\n";
+    cout << "   Avg battery  : " << (double)totalBattery / runs << "% left\n";
 }
