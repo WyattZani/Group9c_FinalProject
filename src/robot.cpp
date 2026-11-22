@@ -1,28 +1,36 @@
 /******************************************************************************
  * File        : robot.cpp
  * Owner       : Robert (T5)
- * Status      : STUB - replace each TODO with working code.
- *               Port from Group9FinalDraft1.cpp: the moveRobot lambda and the
- *               "Initialize robot state" block in main().
+ * Status      : DONE - position, move counter, distance and battery.
  ******************************************************************************/
 #include "robot.h"
 #include "config.h"
 
 Robot::Robot() : pos(), moves(0), distance(0), battery(BATTERY_START) {}
 
+// Put the robot at start with zero moves and a full battery.
 void Robot::reset(Point start) {
-    // TODO(Robert): put the robot at start with zero moves and full battery.
-    (void)start;
+    pos      = start;
+    moves    = 0;
+    distance = 0;
+    battery  = BATTERY_START;
 }
 
+// Step by (dr, dc), count the move, add distance, and drain the battery.
 void Robot::move(int dr, int dc) {
-    // TODO(Robert): step by (dr, dc), add a move, add distance, drain battery.
-    (void)dr; (void)dc;
+    pos.r += dr;
+    pos.c += dc;
+    moves++;
+    distance += METERS_PER_MOVE;
+    battery  -= BATTERY_PER_MOVE;
+    if (battery < 0) {
+        battery = 0;
+    }
 }
 
+// True when there is enough battery left for one more move.
 bool Robot::hasBattery() const {
-    // TODO(Robert): true when there is enough battery for one more move.
-    return false;
+    return battery >= BATTERY_PER_MOVE;
 }
 
 Point Robot::getPosition() const { return pos; }
