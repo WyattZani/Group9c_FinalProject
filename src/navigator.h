@@ -8,6 +8,7 @@
 #define NAVIGATOR_H
 
 #include <random>
+#include <string>
 #include "grid.h"
 #include "robot.h"
 
@@ -30,13 +31,17 @@ private:
     Point         B;
     std::mt19937& rng;
 
-    Phase   phase;
-    int     lane;          // the original path (row or column) being followed
-    bool    detouring;
-    bool    lastForward;   // last move was along the travel direction
-    bool    retreating;    // backing out of a dead end
-    int     sideDir;       // +1 / -1 perpendicular side-step direction
-    Outcome outcome;
+    Phase       phase;
+    int         lane;          // the original path (row or column) being followed
+    bool        detouring;
+    bool        lastForward;   // last move was along the travel direction
+    bool        retreating;    // backing out of a dead end
+    int         sideDir;       // +1 / -1 perpendicular side-step direction
+    Outcome     outcome;
+    std::string status;        // what the last step did, shown under the grid
+
+    bool canMove(int r, int c) const;    // in bounds and not an obstacle
+    void moveRobot(int dr, int dc);      // mark the path, then move the robot
 
 public:
     Navigator(Grid& g, Point start, Point goal, std::mt19937& randomGen);
