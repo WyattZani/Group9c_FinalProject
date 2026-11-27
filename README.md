@@ -133,7 +133,7 @@ Status values: Not started / Stub / In progress / Done. The full task table is i
 | T2 Set start and goal | Stub |
 | T3 Generate obstacles | Stub |
 | T4 Show grid | FINISHED |
-| T5 Run simulation | In Progress |
+| T5 Run simulation | FINISHED |
 | T6 Show results | Finished |
 | T7 Help and legend | FINISHED |
 | T8 Reset / new map | FINISHED |
